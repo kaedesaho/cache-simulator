@@ -1,0 +1,23 @@
+import random
+import matplotlib.pyplot as plt
+
+def generate_addresses(ram_size, num_accesses):
+    return [random.randint(0, ram_size - 1) for _ in range(num_accesses)]
+
+
+def log(trace_file, pid, time, address, hit):
+    with open(trace_file, "a") as f:
+        f.write(f"{pid},{time},{address},{hit}\n")
+
+
+def stats(num_accesses, hits):
+    hit_ratio = hits / num_accesses
+    miss_ratio = 1 - hit_ratio
+    return [hit_ratio, miss_ratio]
+
+def bar_graph(values):
+    categories = ["Cache hit", "Cache miss"]
+    plt.bar(categories, values)
+    plt.ylabel("Ratio")
+    plt.title("Cache Hit vs Cache Miss")
+    plt.show()
