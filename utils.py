@@ -5,9 +5,13 @@ def generate_addresses(ram_size, num_accesses):
     return [random.randint(0, ram_size - 1) for _ in range(num_accesses)]
 
 
-def log(trace_file, pid, time, address, hit):
+def create_log_file(trace_file):
+    with open(trace_file, 'w') as f:
+        pass
+
+def log(trace_file, time, address, hit):
     with open(trace_file, "a") as f:
-        f.write(f"{pid},{time},{address},{hit}\n")
+        f.write(f"{time},{address},{hit}\n")
 
 
 def stats(num_accesses, hits):
@@ -20,4 +24,11 @@ def bar_graph(values):
     plt.bar(categories, values)
     plt.ylabel("Ratio")
     plt.title("Cache Hit vs Cache Miss")
+    plt.show()
+
+def line_graph(time, data):
+    plt.plot(time, data)
+    plt.ylabel("Hits")
+    plt.xlabel("Time")
+    plt.title("Cache Hit Ratio Over Time")
     plt.show()
