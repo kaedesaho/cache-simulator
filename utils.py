@@ -13,19 +13,6 @@ def log(trace_file, time, address, hit):
     with open(trace_file, "a") as f:
         f.write(f"{time},{address},{hit}\n")
 
-
-def stats(num_accesses, hits):
-    hit_ratio = hits / num_accesses
-    miss_ratio = 1 - hit_ratio
-    return [hit_ratio, miss_ratio]
-
-def bar_graph(values):
-    categories = ["Cache hit", "Cache miss"]
-    plt.bar(categories, values)
-    plt.ylabel("Ratio")
-    plt.title("Cache Hit vs Cache Miss")
-    plt.show()
-
 def line_graph(time, data):
     plt.plot(time, data)
     plt.ylabel("Hits")
