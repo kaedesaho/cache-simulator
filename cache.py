@@ -13,9 +13,6 @@ class Line:
         self.last_used = 0
         self.num_used = 0
         self.data = [0] * page_size
-        #self.update = False #True means memory doesn't match the cache line
-
-
 
 class CacheSet:
     def __init__(self, num_sets, lines_per_set, page_size):
@@ -29,7 +26,6 @@ class CacheSet:
         line.data = data
         line.last_used = time_stamp
         line.num_used = 1
-        #line.update = False
 
     def insert(self, page_num, data, time_stamp):
         tag = page_num // self.num_sets
@@ -47,7 +43,6 @@ class CacheSet:
         self.fill_line(replace, tag, data, time_stamp)
 
 
-
     def access(self, page_num, time_stamp):
         tag = page_num // self.num_sets
         block = page_num % self.num_sets
@@ -58,7 +53,5 @@ class CacheSet:
                 line.last_used = time_stamp
                 line.num_used += 1
                 return True
-
-        # Call function to handle
 
         return False
