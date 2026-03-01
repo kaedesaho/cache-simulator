@@ -1,4 +1,4 @@
-from utils import generate_addresses, create_log_file, log, stats, bar_graph, line_graph
+from utils import generate_addresses, create_log_file, log, line_graph
 from memory import Memory
 from cache import CacheSet
 
