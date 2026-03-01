@@ -5,6 +5,7 @@ Cache:
     - Index in the list -> Line number
 """
 
+
 class Line:
     def __init__(self, page_size):
         self.tag = None
@@ -12,26 +13,52 @@ class Line:
         self.last_used = 0
         self.num_used = 0
         self.data = [0] * page_size
+        #self.update = False #True means memory doesn't match the cache line
 
-class Cache:
+
+
+class CacheSet:
     def __init__(self, num_sets, lines_per_set, page_size):
         self.num_sets = num_sets
         self.lines_per_set = lines_per_set
-        self.sets = {i : [Line(page_size) for _ in range(lines_per_set)] for i in range(num_sets)}
+        self.sets = {i: [Line(page_size) for _ in range(lines_per_set)] for i in range(num_sets)}
+
+    def fill_line(self, line, tag, data, time_stamp):
+        line.valid = True
+        line.tag = tag
+        line.data = data
+        line.last_used = time_stamp
+        line.num_used = 1
+        #line.update = False
+
+    def insert(self, page_num, data, time_stamp):
+        tag = page_num // self.num_sets
+        block = page_num % self.num_sets
+
+        lines = self.sets[block]
+
+        for line in lines:
+            if not line.valid:
+                self.fill_line(line, tag, data, time_stamp)
+                return
+
+        replace = min(lines, key=lambda l: (l.num_used, l.last_used))
+
+        self.fill_line(replace, tag, data, time_stamp)
+
+
 
     def access(self, page_num, time_stamp):
-        tag = 
-        block =
+        tag = page_num // self.num_sets
+        block = page_num % self.num_sets
 
         # Check cache hit
         for line in self.sets[block]:
             if line.valid and line.tag == tag:
                 line.last_used = time_stamp
+                line.num_used += 1
                 return True
-            
-        # Handle cache miss
 
-            # Call function to handle 
-        
+        # Call function to handle
+
         return False
-
