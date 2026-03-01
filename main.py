@@ -1,4 +1,4 @@
-from utils import generate_addresses, create_log_file, log, stats, bar_graph
+from utils import generate_addresses, create_log_file, log, stats, bar_graph, line_graph
 from memory import Memory
 from cache import CacheSet
 
@@ -50,8 +50,11 @@ print("Set Up Complete")
 
 hits = 0
 time_stamp = 0
+time = [0]
+info = [0]
 for address in access_pattern:
     time_stamp += 1
+    time.append(time_stamp)
     page_num = address // page_size
     hit = cache.access(page_num, time_stamp)
     if hit:
@@ -60,7 +63,10 @@ for address in access_pattern:
         data = memory.access(address)
         cache.insert(page_num, data, time_stamp)
 
+    info.append(hits)
+
     log(trace_file, time_stamp, address, hit)
 
-ratio = stats(num_accesses, hits)
-bar_graph(ratio)
+#ratio = stats(num_accesses, hits)
+#bar_graph(ratio)
+line_graph(time, info)
