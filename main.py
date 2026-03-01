@@ -67,6 +67,4 @@ for address in access_pattern:
 
     log(trace_file, time_stamp, address, hit)
 
-#ratio = stats(num_accesses, hits)
-#bar_graph(ratio)
 line_graph(time, info)
