@@ -1,4 +1,4 @@
-from utils import generate_addresses, log, stats, bar_graph
+from utils import generate_addresses, create_log_file, log, stats, bar_graph
 from memory import Memory
 from cache import CacheSet
 
@@ -8,22 +8,21 @@ def convert_to_bytes(size, unit):
         return size * 1024
     elif unit == 'mb':
         return size * 1024 * 1024
-    elif unit == 'gb':
-        return size * 1024 * 1024 * 1024
     elif unit == 'b':
         return size
     else:
         return ValueError("Invalid Unit")
 
 
-trace_file = "/log.tsx"
+trace_file = "log.txt"
+create_log_file(trace_file)
 
 ram_size = int(input("Enter a RAM size: "))
-ram_unit = str(input("Enter a RAM unit(B/KB/MB/GB): "))
+ram_unit = str(input("Enter a RAM unit(B/KB/MB): "))
 page_size = int(input("Enter a Page size: "))
-page_unit = str(input("Enter a Page unit(B/KB/MB/GB): "))
+page_unit = str(input("Enter a Page unit(B/KB/MB): "))
 cache_size = int(input("Enter a cache size: "))
-cache_unit = str(input("Enter a cache unit(B/KB/MB/GB): "))
+cache_unit = str(input("Enter a cache unit(B/KB/MB): "))
 lines_per_set = int(input("Enter a number of lines per set: "))
 #Direct map = lines_per_set = 1
 #Fully associative = num_set = 1
@@ -40,15 +39,14 @@ num_reads = int(input("Enter a number of reads: "))
 num_writes = int(input("Enter a number of writes: "))
 num_accesses = num_reads + num_writes
 
-print("test1")
+print("Creating Ram")
 memory = Memory(ram_size, page_size)
-print("test2")
+print("Creating Cache")
 cache = CacheSet(num_sets, lines_per_set, page_size)
 
-print("test3")
+print("Creating Access Pattern")
 access_pattern = generate_addresses(ram_size, num_accesses)
-
-pid = 1 #temp holder until we can generate random pid
+print("Set Up Complete")
 
 hits = 0
 time_stamp = 0
@@ -62,7 +60,7 @@ for address in access_pattern:
         data = memory.access(address)
         cache.insert(page_num, data, time_stamp)
 
-    log(trace_file, pid, time_stamp, address, hit)
+    log(trace_file, time_stamp, address, hit)
 
 ratio = stats(num_accesses, hits)
 bar_graph(ratio)
