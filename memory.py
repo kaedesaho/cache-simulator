@@ -6,7 +6,7 @@ Memory:
 """
 
 class Memory:
-    def __init(self, ram_size, page_size):
+    def __init__(self, ram_size, page_size):
         self.page_size = page_size
         self.num_pages = ram_size // page_size
         self.pages = {i : [0] * self.page_size for i in range(self.num_pages)}
