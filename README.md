@@ -6,7 +6,7 @@ This project is a **cache and memory simulator** written in Python.
 It simulates CPU memory access using a cache with configurable parameters, supporting:
 
 - Direct mapping / set-associative cache
-- LRU/LFU hybrids replacement policy
+- LRU/LFU hybrid replacement policy
 - Page-based memory access
 
 The simulator tracks **cache hits and misses** and simulates memory accesses.
@@ -16,9 +16,8 @@ The simulator tracks **cache hits and misses** and simulates memory accesses.
 - Configurable **RAM size**, **page size**, **cache size**, **lines per set**
 - Tracks **hits, misses, and memory accesses**
 - Implements **LRU/LFU replacement**
-- Supports flexible **memory block size** for performance tuning
 - Generates **trace logs** for memory accesses
-- Optional **bar graph visualization** of cache hit ratio
+- **Line chart visualization** of cache hit ratio
 
 ## Project Structure
 ```
@@ -41,9 +40,7 @@ Simulates main memory as a dictionary of pages.
 
 - access(address) → reads data at given address
 
-- write(address, value) → writes data
-
-- Supports page-based memory for bytes, KB, or GB simulation
+- Supports page-based memory for bytes, KB, or MB simulation
 
 ### `Cache`
 
@@ -51,33 +48,31 @@ Simulates the CPU cache with set-associative or direct-mapped policy.
 
 - Stores cache lines with attributes:
 
-  - valid, tag, last_used, num_used, dirty, data
+  - valid, tag, last_used, num_used, data
 
 - Handles cache hits and misses
 
-- Implements LRU replacement
-
-- Supports write-back with dirty line eviction
+- Implements LRU/LFU hybrid replacement
 
 
-### How to Run
+## How to Run
 
-1. Clone repository:
+### 1. Clone repository:
 ```
 @git clone https://github.com/yourusername/cache-simulator.git
 cd cache-simulator
 ```
 
-2. Run simulation:
+### 2. Run simulation:
 
 ```
 python3 main.py
 ```
 
-3. Input parameters when prompted:
+### 3. Input parameters when prompted:
 
 
-- RAM size (in bytes, KB, or GB depending on page_size)
+- RAM size (in bytes, KB, or MB depending on page_size)
 
 - Page size (number of bytes per page)
 
@@ -87,17 +82,15 @@ python3 main.py
 
 - Number of reads and writes
 
-4. Simulation outputs:
+### 4. Simulation outputs:
 
 - Trace log in `log.tsx`
 
-- Cache hit/miss ratio bar graph
-
-- Cache hit ratio over time
+- Cache hit ratio line chart over time
 
 ## Authors
 
-Brandon Warnke
+Brandon Warnke  
 Kaede Saho
 
 ## License
