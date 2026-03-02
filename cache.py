@@ -11,7 +11,6 @@ class Line:
         self.tag = None
         self.valid = False
         self.last_used = 0
-        self.num_used = 0
         self.data = [0] * page_size
 
 class CacheSet:
@@ -25,7 +24,6 @@ class CacheSet:
         line.tag = tag
         line.data = data
         line.last_used = time_stamp
-        line.num_used = 1
 
     def insert(self, page_num, data, time_stamp):
         tag = page_num // self.num_sets
@@ -38,20 +36,17 @@ class CacheSet:
                 self.fill_line(line, tag, data, time_stamp)
                 return
 
-        replace = min(lines, key=lambda l: (l.num_used, l.last_used))
+        replace = min(lines, key=lambda l: l.last_used)
 
         self.fill_line(replace, tag, data, time_stamp)
-
 
     def access(self, page_num, time_stamp):
         tag = page_num // self.num_sets
         block = page_num % self.num_sets
 
-        # Check cache hit
         for line in self.sets[block]:
             if line.valid and line.tag == tag:
                 line.last_used = time_stamp
-                line.num_used += 1
                 return True
 
         return False
